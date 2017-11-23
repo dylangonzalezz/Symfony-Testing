@@ -1,0 +1,3 @@
+acme_test_homepage:
+    path:     /wot/{smthn}/{count}
+    defaults: { _controller: AcmeTestBundle:Default:index }
