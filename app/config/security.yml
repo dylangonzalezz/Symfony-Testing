@@ -1,18 +1,55 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+    access_denied_url: ~
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+#        in_memory:
+#            memory:
+#                users:
+#                    user: { password: userpass, roles: ['ROLE_USER'] }
+#                    admin: { password: adminpass, roles: ['ROLE_ADMIN'] }
+        our_db_provider:
+            entity:
+                class: UserBundle:User
+#            entity: { class: UserBundle:User, property: username }
+#        user_repo:
+#            id: App\Security\User\UserProvider
+
+
+    encoders:
+#        FOS\UserBundle\Model\UserInterface: sha512
+        Symfony\Component\Security\Core\User\User: plaintext
+        Acme\UserBundle\Entity\User: bcrypt
+        App\Security\User\WebserviceUser: bcrypt
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
+        secured_area:
+            pattern: ^/
+            form_login:
+                check_path: /login
+                login_path: /
+            logout:
+                path: logout
+                target: /
+            anonymous: ~
+            provider: our_db_provider
+            http_basic: ~
+#        # disables authentication for assets and the profiler, adapt it according to your needs
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            anonymous: ~
+#            security: false
+#            form_login:
+#                login_path: /login
+#                check_path: /login_check
+#                default_target_path: /wot
+#
         main:
             anonymous: ~
             # activate different ways to authenticate
@@ -22,3 +59,7 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+
+    access_control:
+        - { path: ^/wot, roles: ROLE_USER }
+        - { path: ^/posts, roles: ROLE_USER }

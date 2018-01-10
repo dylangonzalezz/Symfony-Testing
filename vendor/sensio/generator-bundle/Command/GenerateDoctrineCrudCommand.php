@@ -171,8 +171,10 @@ EOT
 
         try {
             $entityClass = $this->getContainer()->get('doctrine')->getAliasNamespace($bundle).'\\'.$entity;
+            var_dump($entityClass);
             $metadata = $this->getEntityMetadata($entityClass);
         } catch (\Exception $e) {
+            var_dump($e->getMessage());
             throw new \RuntimeException(sprintf('Entity "%s" does not exist in the "%s" bundle. You may have mistyped the bundle name or maybe the entity doesn\'t exist yet (create it first with the "doctrine:generate:entity" command).', $entity, $bundle));
         }
 

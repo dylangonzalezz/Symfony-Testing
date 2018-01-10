@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% include '::/shared/navigation.html.twig' %}
+
+    <h1>Welcome to Random</h1>
+    {% for post in allposts %}
+        {#{{ post.id }}#}
+        {{ post.text }}
+        <br>
+        {{ post.time|date("Y/m/d") }}
+        {{ post.likes.owner.author.username }}
+        Likes: {{ post.likes|length }}
+        <br>
+
+        {% if post.hasLiked(app.user) %}
+            <a href="{{ path('post_removeLikePost', {'id': post.id}) }}"
+                class="js-like-button">
+                Unlike
+            </a>
+        {% else %}
+            <a href="{{ path('post_likePost', {'id': post.id}) }}"
+               class="js-like-button">
+                Like
+            </a>
+        {% endif %}
+        <br>
+        <br>
+    {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.js-like-button').on('click', function(e) {
+                // prevents the browser from "following" the link
+                e.preventDefault();
+
+                var $anchor = $(this);
+                var url = $(this).attr('href')+'.json';
+
+                $.post(url, null, function(data) {
+                    if (data.liked) {
+                        var message = 'Thanks for liking!';
+                    } else {
+                        var message = 'Wat!';
+                    }
+
+                    $anchor.after('<span class="label label-default">&#10004; '+message+'</span>');
+                    $anchor.hide();
+                });
+            });
+        });
+    </script>
+{% endblock %}

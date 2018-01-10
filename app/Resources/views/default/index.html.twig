@@ -1,8 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-   lolol
-    {{ wot }}
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% include '::/shared/navigation.html.twig' %}
+        {{ wot }}
+        <p>Hi {{ user }}</p>
+    {% else %}
+        <h3>Login to see posts!</h3>
+        <a href="{{ path('login') }}">Login keke</a>
+        <h3>Or register if you're new!</h3>
+        <a href="{{'register'}}">Register huehuehuehue</a>
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}

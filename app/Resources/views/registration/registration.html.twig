@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section>
+        <article>
+            <h1>Register boiii</h1>
+            <form action="{{ path('user_register') }}" method="POST" novalidate="true">
+                {# this exists... #}
+                {#{{ form_errors(form.username) }}#}
+                {#{{ form_label(form.email) }}#}
+                {#{{ form_widget(form.password) }}#}
+
+                {{ form_errors(form) }}
+
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first, {
+                    'label': 'Password'
+                }) }}
+                {{ form_row(form.plainPassword.second, {
+                    'label': 'Reenter Password'
+                }) }}
+                    {#'label': 'Repeat Password'#}
+                {#}) }}#}
+
+                {# Renders hidden fields (also good for csrf attacks)#}
+                {{ form_rest(form) }}
+                <input type="submit" value="Register" id="submitRegistration"/>
+            </form>
+        </article>
+    </section>
+{% endblock %}

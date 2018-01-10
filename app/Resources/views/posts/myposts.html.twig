@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% include '::/shared/navigation.html.twig' %}
+
+    <h1>My Posts</h1>
+    {% for post in myposts %}
+        {#{{ post.id }}#}
+        {{ post.text }}
+        {{ post.time|date("Y/m/d") }}
+        {{ post.likes.owner.author.username }}
+        Likes: {{ post.likes|length }}
+        <br>
+        <a class="nav-link" href="{{ path('post_edit', {'id': post.id}) }}">Edit</a>
+        <br>
+    {% endfor %}
+{% endblock %}

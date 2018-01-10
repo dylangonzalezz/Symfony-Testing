@@ -1,0 +1,52 @@
+post_likePost:
+    path:  posts/b/{id}/likePost.{format}
+    defaults: { _controller: "PostBundle:Posts:likePost", format: html }
+    requirements:
+        format: json
+post_removeLikePost:
+    path:  posts/b/{id}/removeLikePost.{format}
+    defaults: { _controller: "PostBundle:Posts:removeLikePost", format: html }
+    requirements:
+        format: json
+
+        # the / route is defined via annotations
+
+#event_show:
+#    pattern:  /{slug}/show
+#    defaults: { _controller: "EventBundle:Event:show" }
+#
+post_new:
+    path:  posts/new
+    defaults: { _controller: "PostBundle:CRUD:new" }
+#
+post_create:
+    path:  posts/create
+    defaults: { _controller: "PostBundle:CRUD:create" }
+    requirements: { _method: post }
+
+post_edit:
+    path:  posts/{id}/edit
+    defaults: { _controller: "PostBundle:CRUD:edit" }
+
+post_update:
+    path:  posts/{id}/update
+    defaults: { _controller: "PostBundle:CRUD:update" }
+    requirements: { _method: post|put }
+
+post_delete:
+    path:  /{id}/delete
+    defaults: { _controller: "PostBundle:CRUD:delete" }
+    requirements: { _method: post|delete }
+
+#event_attend:
+#    pattern:  /{id}/attend.{format}
+#    defaults: { _controller: "EventBundle:Event:attend", format: html }
+#    requirements:
+#        format: json
+#
+#event_unattend:
+#    pattern:  /{id}/unattend.{format}
+#    defaults: { _controller: "EventBundle:Event:unattend", format: html }
+#    requirements:
+#        format: json
+

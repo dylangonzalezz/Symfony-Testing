@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section class="event-show event-edit">
+        <header id="menu">
+            <a class="link" href="{{ path('myposts') }}">&larr; back</a>
+        </header>
+
+        <article>
+            <header class="map-container">
+
+            </header>
+            <section>
+                {# the opening <form> tag #}
+                {{ form_start(edit_form) }}
+                {{ form_errors(edit_form) }}
+                <h1>
+                    {{ form_errors(edit_form.text) }}
+                    {{ form_widget(edit_form.text) }}
+                </h1>
+
+                {# the closing </form> tag #}
+                {{ form_end(edit_form) }}
+
+                {{ form(delete_form) }}
+            </section>
+        </article>
+    </section>
+{% endblock %}

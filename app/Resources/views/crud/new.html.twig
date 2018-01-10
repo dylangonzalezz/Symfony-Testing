@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section class="event-show event-edit">
+        <header id="menu">
+            <a class="link" href="{{ path('allposts') }}">&larr; back</a>
+        </header>
+
+        <article>
+            <header class="map-container">
+                <img src="http://maps.googleapis.com/maps/api/staticmap?center=Somewhere,%20US&zoom=15&size=300x300&maptype=roadmap&sensor=false" />
+            </header>
+            <section>
+                {# the opening <form> tag #}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <h1>
+                    {{ form_errors(form.text) }}
+                    {{ form_widget(form.text) }}
+                </h1>
+
+                {# the closing </form> tag #}
+                {{ form_end(form) }}
+            </section>
+        </article>
+    </section>
+{% endblock %}

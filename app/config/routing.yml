@@ -1,3 +1,13 @@
 app:
-    resource: '@DylonskiAppBundle/Controller/'
+    #resource: '@DylonskiAppBundle/Controller/'
+    resource: '@AcmeTestBundlee/Controller/'
     type: annotation
+user:
+    resource: '@UserBundle/Controller/'
+    type: annotation
+posts:
+    resource: '@PostBundle/Controller/'
+    type: annotation
+PostBundle_event:
+    resource: "@PostBundle/Resources/config/routing/event.yml"
+    prefix:   /

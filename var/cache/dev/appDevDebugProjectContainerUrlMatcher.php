@@ -103,13 +103,102 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // homepage
+        // acme_test_default_index
         if ('' === $trimmedPathinfo) {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'homepage');
+                return $this->redirect($pathinfo.'/', 'acme_test_default_index');
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
+            return array (  '_controller' => 'Acme\\TestBundle\\Controller\\DefaultController::indexAction',  '_route' => 'acme_test_default_index',);
+        }
+
+        // wot
+        if ('/wot' === $pathinfo) {
+            return array (  '_controller' => 'Acme\\TestBundle\\Controller\\DefaultController::indexActionTwo',  '_route' => 'wot',);
+        }
+
+        // user_register
+        if ('/register' === $pathinfo) {
+            return array (  '_controller' => 'Acme\\UserBundle\\Controller\\RegistrationController::registerAction',  '_route' => 'user_register',);
+        }
+
+        if (0 === strpos($pathinfo, '/login')) {
+            // login
+            if ('/login' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\UserBundle\\Controller\\SecurityController::login',  '_route' => 'login',);
+            }
+
+            // login_check
+            if ('/login_check' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\UserBundle\\Controller\\SecurityController::loginCheckAction',  '_route' => 'login_check',);
+            }
+
+        }
+
+        // logout
+        if ('/logout' === $pathinfo) {
+            return array (  '_controller' => 'Acme\\UserBundle\\Controller\\SecurityController::logout',  '_route' => 'logout',);
+        }
+
+        if (0 === strpos($pathinfo, '/posts')) {
+            if (0 === strpos($pathinfo, '/posts/b')) {
+                // allposts
+                if ('/posts/b' === $pathinfo) {
+                    return array (  '_controller' => 'Acme\\PostBundle\\Controller\\PostsController::allPostsAction',  '_route' => 'allposts',);
+                }
+
+                // post_likePost
+                if (preg_match('#^/posts/b/(?P<id>[^/]++)/likePost(?:\\.(?P<format>json))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'post_likePost')), array (  '_controller' => 'Acme\\PostBundle\\Controller\\PostsController::likePostAction',  'format' => 'html',));
+                }
+
+                // post_removeLikePost
+                if (preg_match('#^/posts/b/(?P<id>[^/]++)/removeLikePost(?:\\.(?P<format>json))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'post_removeLikePost')), array (  '_controller' => 'Acme\\PostBundle\\Controller\\PostsController::removeLikePostAction',  'format' => 'html',));
+                }
+
+            }
+
+            // myposts
+            if ('/posts/myposts' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\PostBundle\\Controller\\PostsController::myPostsAction',  '_route' => 'myposts',);
+            }
+
+            // topposts
+            if ('/posts/topposts' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\PostBundle\\Controller\\PostsController::topPostsAction',  '_route' => 'topposts',);
+            }
+
+            // acme_post_report_updatedevents
+            if ('/posts/report/allposts.csv' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\PostBundle\\Controller\\ReportController::updatedEventsAction',  '_route' => 'acme_post_report_updatedevents',);
+            }
+
+            // post_new
+            if ('/posts/new' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\PostBundle\\Controller\\CRUDController::newAction',  '_route' => 'post_new',);
+            }
+
+            // post_create
+            if ('/posts/create' === $pathinfo) {
+                return array (  '_controller' => 'Acme\\PostBundle\\Controller\\CRUDController::createAction',  '_route' => 'post_create',);
+            }
+
+            // post_edit
+            if (preg_match('#^/posts/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'post_edit')), array (  '_controller' => 'Acme\\PostBundle\\Controller\\CRUDController::editAction',));
+            }
+
+            // post_update
+            if (preg_match('#^/posts/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'post_update')), array (  '_controller' => 'Acme\\PostBundle\\Controller\\CRUDController::updateAction',));
+            }
+
+        }
+
+        // post_delete
+        if (preg_match('#^/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'post_delete')), array (  '_controller' => 'Acme\\PostBundle\\Controller\\CRUDController::deleteAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
